@@ -19,6 +19,7 @@ soup = BeautifulSoup(source, 'html.parser')
 
 
 def names_list():
+    # return [i for i in soup.find_all('a', class_='nowrap')]
     l = []
     for i in soup.find_all('a', class_='nowrap'):
         name = i.text

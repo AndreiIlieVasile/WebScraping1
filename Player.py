@@ -1,3 +1,7 @@
+from dataclasses import dataclass
+
+
+@dataclass
 class Player:
 
     def __init__(self, name, country, ovr, pot):
