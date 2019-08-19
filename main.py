@@ -1,4 +1,3 @@
-from flask import Flask, escape, request
 from bs4 import BeautifulSoup
 import requests
 from Player import Player
@@ -8,55 +7,21 @@ source = requests.get('https://sofifa.com/?hl=en-US').text
 
 soup = BeautifulSoup(source, 'html.parser')
 
-#print(soup.prettify())
-
-# table = soup.find('tbody')
-# name = table.tr.div.text
-# print(name)
-
-# country = soup.find('div', class_='bp3-text-overflow-ellipsis').a['title']
-# print(country)
-
 
 def names_list():
-    # return [i for i in soup.find_all('a', class_='nowrap')]
-    l = []
-    for i in soup.find_all('a', class_='nowrap'):
-        name = i.text
-        l.append(name)
-    return l
+    return [i.text for i in soup.find_all('a', class_='nowrap')]
 
 
 def countries_list():
-    l = []
-    for i in soup.find_all('div', class_='bp3-text-overflow-ellipsis'):
-        c = i.a
-
-        if c.get('rel') == ['nofollow']:
-            l.append(c.get('title'))
-
-        # country = str(c)
-        # if len(country) > 100:
-        #     country = country.split('="')[3]
-        #     country = country.split('">')[0]
-        #     l.append(country)
-    return l
+    return [i.a.get('title') for i in soup.find_all('div', class_='bp3-text-overflow-ellipsis') if i.a.get('rel') == ['nofollow']]
 
 
 def ovr_list():
-    l = []
-    for i in soup.find_all('td', class_='col col-oa'):
-        ovr = i.span.text
-        l.append(ovr)
-    return l
+    return [i.span.text for i in soup.find_all('td', class_='col col-oa')]
 
 
 def pot_list():
-    l = []
-    for i in soup.find_all('td', class_='col col-pt'):
-        pot = i.span.text
-        l.append(pot)
-    return l
+    return [i.span.text for i in soup.find_all('td', class_='col col-pt')]
 
 
 names = names_list()
